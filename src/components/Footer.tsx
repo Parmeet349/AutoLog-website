@@ -7,7 +7,7 @@ export default function Footer() {
         <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
         <Link href="/terms" className="hover:text-white">Terms of Service</Link>
       </div>
-      <p>© 2023 AutoLog. All rights reserved.</p>
+      <p>© 2025 AutoLog. All rights reserved.</p>
     </footer>
   );
 }

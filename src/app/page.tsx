@@ -221,15 +221,6 @@ export default function Home() {
           ↑
         </button>
       )}
-
-      {/* Footer */}
-      <footer className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between text-gray-400 text-sm">
-        <div className="flex gap-6 mb-4 md:mb-0">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </div>
-        <p>© 2023 AutoLog. All rights reserved.</p>
-      </footer>
     </main>
   );
 }
