@@ -79,29 +79,10 @@ export default function Home() {
 
   return (
     <main className="bg-[#0B0F19] text-white min-h-screen relative overflow-x-hidden">
-      {/* Navbar */}
-      <header className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto fixed w-full z-50 bg-[#0B0F19]/80 backdrop-blur-md">
-        <h1 className="text-xl font-bold cursor-pointer" onClick={() => scrollTo("hero")}>AutoLog</h1>
-        <nav className="hidden md:flex gap-8 text-gray-300">
-          {sections.slice(1).map((sec) => (
-            <button
-              key={sec}
-              onClick={() => scrollTo(sec)}
-              // className={`hover:text-white transition ${activeSection === sec ? "text-blue-500 font-semibold" : ""}`} ff6600
-              className={`hover:text-white transition ${activeSection === sec ? "text-[#ff6600] font-semibold" : ""}`}
-            >
-              {sec.charAt(0).toUpperCase() + sec.slice(1)}
-            </button>
-          ))}
-          <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">Login</button>
-        </nav>
-      </header>
 
       {/* Hero Section */}
-      {/* <section className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-16 gap-12"> */}
       <section
         id="hero"
-        // className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-16 gap-12"
         className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-32 gap-12 scroll-mt-32 overflow-hidden"
         ref={addRef}
       >
@@ -134,43 +115,6 @@ export default function Home() {
 
         </div>
       </section>
-{/* 
-      <section
-        id="hero"
-        className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-32 gap-12 scroll-mt-32 overflow-hidden"
-        ref={addRef}
-      >
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#0B0F19]/80 to-[#0B0F19]/0 pointer-events-none"></div>
-
-          <Image
-            src="/mockup-phone.png"
-            alt="App mockup"
-            width={350}
-            height={700}
-            className="rounded-lg shadow-2xl"
-          />
-        <div className="max-w-lg transition-all duration-700 ease-out opacity-0 translate-y-10">
-          <h2 className="text-4xl font-extrabold mb-4">Track Your Car Expenses Effortlessly</h2>
-          <p className="text-gray-400 mb-6">
-            AutoLog helps you monitor fuel costs, maintenance, and other vehicle expenses with ease. Download now to start saving.
-          </p>
-          <div className="flex gap-4">
-            <button className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
-              <FaApple /> iOS Download
-            </button>
-            <button className="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
-              <FaAndroid /> Android Download
-            </button>
-          </div>
-        </div>
-
-        <div
-          className="transition-all duration-700 ease-out opacity-0 translate-y-10"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
-        >
-
-        </div>
-      </section> */}
 
       {/* Features Section */}
       <section id="features" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
