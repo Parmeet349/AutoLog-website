@@ -1,103 +1,291 @@
+"use client";
 import Image from "next/image";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState, useRef } from "react";
+import { FaApple, FaAndroid } from "react-icons/fa";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeSection, setActiveSection] = useState("hero");
+  const [showTopButton, setShowTopButton] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [countersStarted, setCountersStarted] = useState(false);
+  const [stats, setStats] = useState({ cars: 0, logs: 0, users: 0 });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const sections = ["hero", "features", "stats", "pricing", "support"];
+  const revealRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Scroll & parallax handler
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 200;
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) setActiveSection(id);
+      });
+      setShowTopButton(window.scrollY > 500);
+      setScrollY(window.scrollY);
+
+      const statsEl = document.getElementById("stats");
+      if (statsEl && window.scrollY + window.innerHeight >= statsEl.offsetTop) {
+        setCountersStarted(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Animated counters
+  useEffect(() => {
+    if (!countersStarted) return;
+    const interval = setInterval(() => {
+      setStats((prev) => ({
+        cars: prev.cars < 1200 ? prev.cars + 10 : 1200,
+        logs: prev.logs < 3500 ? prev.logs + 25 : 3500,
+        users: prev.users < 5000 ? prev.users + 40 : 5000,
+      }));
+    }, 50);
+    return () => clearInterval(interval);
+  }, [countersStarted]);
+
+  // IntersectionObserver for scroll reveal
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            entry.target.classList.remove("opacity-0", "translate-y-10");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    revealRefs.current.forEach((el) => el && observer.observe(el));
+    return () => {
+      revealRefs.current.forEach((el) => el && observer.unobserve(el));
+    };
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const addRef = (el: HTMLDivElement | null) => {
+    if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
+  };
+
+  return (
+    <main className="bg-[#0B0F19] text-white min-h-screen relative overflow-x-hidden">
+      {/* Navbar */}
+      <header className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto fixed w-full z-50 bg-[#0B0F19]/80 backdrop-blur-md">
+        <h1 className="text-xl font-bold cursor-pointer" onClick={() => scrollTo("hero")}>AutoLog</h1>
+        <nav className="hidden md:flex gap-8 text-gray-300">
+          {sections.slice(1).map((sec) => (
+            <button
+              key={sec}
+              onClick={() => scrollTo(sec)}
+              // className={`hover:text-white transition ${activeSection === sec ? "text-blue-500 font-semibold" : ""}`} ff6600
+              className={`hover:text-white transition ${activeSection === sec ? "text-[#ff6600] font-semibold" : ""}`}
+            >
+              {sec.charAt(0).toUpperCase() + sec.slice(1)}
+            </button>
+          ))}
+          <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">Login</button>
+        </nav>
+      </header>
+
+      {/* Hero Section */}
+      {/* <section className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-16 gap-12"> */}
+      <section
+        id="hero"
+        // className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-16 gap-12"
+        className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-32 gap-12 scroll-mt-32 overflow-hidden"
+        ref={addRef}
+      >
+        
+        <Image
+            src="/mockup-phone.png" // replace with your actual phone mockup
+            alt="App mockup"
+            width={350}
+            height={700}
+            className="rounded-lg"
+          />
+        <div className="max-w-lg">
+          <h2 className="text-4xl font-extrabold mb-4">
+            Track Your Car Expenses Effortlessly
+          </h2>
+          <p className="text-gray-400 mb-6">
+            AutoLog helps you monitor fuel costs, maintenance, and other vehicle
+            expenses with ease. Download now to start saving.
+          </p>
+          <div className="flex gap-4">
+            <button className="bg-[#ff6600] hover:bg-[#ff2200] px-6 py-3 rounded-md font-medium">
+              Download for iOS
+            </button>
+            <button className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-md font-medium">
+              Download for Android
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div>
+
+        </div>
+      </section>
+{/* 
+      <section
+        id="hero"
+        className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-32 gap-12 scroll-mt-32 overflow-hidden"
+        ref={addRef}
+      >
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#0B0F19]/80 to-[#0B0F19]/0 pointer-events-none"></div>
+
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/mockup-phone.png"
+            alt="App mockup"
+            width={350}
+            height={700}
+            className="rounded-lg shadow-2xl"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div className="max-w-lg transition-all duration-700 ease-out opacity-0 translate-y-10">
+          <h2 className="text-4xl font-extrabold mb-4">Track Your Car Expenses Effortlessly</h2>
+          <p className="text-gray-400 mb-6">
+            AutoLog helps you monitor fuel costs, maintenance, and other vehicle expenses with ease. Download now to start saving.
+          </p>
+          <div className="flex gap-4">
+            <button className="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
+              <FaApple /> iOS Download
+            </button>
+            <button className="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
+              <FaAndroid /> Android Download
+            </button>
+          </div>
+        </div>
+
+        <div
+          className="transition-all duration-700 ease-out opacity-0 translate-y-10"
+          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        </div>
+      </section> */}
+
+      {/* Features Section */}
+      <section id="features" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
+        <h3 className="text-3xl font-bold mb-8">Key Features</h3>
+        <div className="grid md:grid-cols-4 gap-8">
+          {[
+            { title: "OCR Fuel Log", desc: "Scan receipts with OCR technology.", img: "/ocr.png" },
+            { title: "Dashboard Charts", desc: "Visualize spending with charts.", img: "/charts.png" },
+            { title: "Reminders", desc: "Set maintenance & insurance reminders.", img: "/reminders.png" },
+            { title: "Multi-Vehicle Support", desc: "Manage multiple vehicles.", img: "/multi-vehicle.png" },
+          ].map((feature, idx) => (
+            <div
+              key={idx}
+              className="bg-[#111827] p-6 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
+              ref={addRef}
+            >
+              <Image src={feature.img} alt={feature.title} width={400} height={200} className="rounded-md mb-4"/>
+              <h4 className="text-lg font-semibold mb-2">{feature.title}</h4>
+              <p className="text-gray-400">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section id="stats" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32 flex flex-col items-center text-center">
+        <div className="flex justify-around w-full mb-12">
+          <div>
+            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.cars}+</h4>
+            <p className="text-gray-400">Cars Tracked</p>
+          </div>
+          <div>
+            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.logs}+</h4>
+            <p className="text-gray-400">Fuel Logs</p>
+          </div>
+          <div>
+            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.users}+</h4>
+            <p className="text-gray-400">Active Users</p>
+          </div>
+        </div>
+
+        {/* Download Buttons Below Stats */}
+        <div className="flex gap-6">
+          <button className="bg-[#ff6600] hover:bg-[#ff2200] px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
+            <FaApple /> iOS Download
+          </button>
+          <button className="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
+            <FaAndroid /> Android Download
+          </button>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
+        <h3 className="text-3xl font-bold mb-12 text-center">Pricing Plans</h3>
+        <div className="grid md:grid-cols-2 gap-8">
+          {[
+            { title: "Free", price: "$0/month", features: ["Basic fuel tracking", "Trip logs"] },
+            { title: "Premium", price: "$9.99/month", features: ["Unlimited tracking", "Maintenance reminders", "Advanced analytics"] },
+          ].map((plan, idx) => (
+            <div
+              key={idx}
+              className="bg-[#111827] p-8 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
+              ref={addRef}
+            >
+              <h4 className="text-2xl font-semibold mb-4">{plan.title}</h4>
+              <p className="text-3xl font-bold mb-6">{plan.price}</p>
+              <ul className="mb-6 space-y-2 text-gray-400">
+                {plan.features.map((f, i) => <li key={i}>• {f}</li>)}
+              </ul>
+              <button className="bg-[#ff6600] px-6 py-3 rounded-md hover:bg-[#ff2200] font-medium transition transform hover:scale-105">Choose Plan</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Support Section */}
+      <section id="support" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
+        <h3 className="text-3xl font-bold mb-12 text-center">Support & FAQs</h3>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { q: "How do I log fuel expenses?", a: "Scan receipts or enter manually using AutoLog." },
+            { q: "Can I track multiple vehicles?", a: "Yes, you can manage multiple vehicles." },
+            { q: "How do I upgrade to Premium?", a: "Visit the Pricing section and select Premium." },
+          ].map((faq, idx) => (
+            <div
+              key={idx}
+              className="bg-[#111827] p-6 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
+              ref={addRef}
+            >
+              <h4 className="text-lg font-semibold mb-2">{faq.q}</h4>
+              <p className="text-gray-400">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Back to Top Button */}
+      {showTopButton && (
+        <button
+          onClick={() => scrollTo("hero")}
+          className="fixed bottom-8 right-8 bg-[#ff6600] text-white p-4 rounded-full shadow-lg hover:bg-[#ff2200] transition transform hover:scale-110 z-50"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          ↑
+        </button>
+      )}
+
+      {/* Footer */}
+      <footer className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between text-gray-400 text-sm">
+        <div className="flex gap-6 mb-4 md:mb-0">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <p>© 2023 AutoLog. All rights reserved.</p>
       </footer>
-    </div>
+    </main>
   );
 }
