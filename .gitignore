@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# private files
+._*
+
 # production
 /build
 
