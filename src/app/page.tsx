@@ -105,7 +105,7 @@ export default function Home() {
             </div>
 
             {/* Floating Phone Mockup */}
-            <div className="relative">
+            {/* <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[3rem] blur opacity-25"></div>
               <div className="relative glass-card p-4 aspect-[9/19] max-w-[320px] mx-auto border-white/20 overflow-hidden shadow-2xl z-20">
                 <div className="w-full h-full bg-[#0B0F19] rounded-[2rem] overflow-hidden p-6 border border-white/10">
@@ -114,6 +114,43 @@ export default function Home() {
                     <div className="h-24 w-full bg-primary/20 rounded-2xl animate-pulse" />
                     <div className="h-32 w-full bg-white/5 rounded-2xl" />
                   </div>
+                </div>
+              </div>
+            </div> */}
+            {/* Floating Phone Mockup */}
+            <div className="relative group">
+              {/* Background Glow */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[3rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+
+              <div className="relative glass-card p-3 aspect-[9/19] max-w-[320px] mx-auto border-white/20 overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-all duration-700 z-20">
+                {/* The Phone Frame */}
+                <div className="relative w-full h-full bg-[#0B0F19] rounded-[2rem] overflow-hidden border border-white/10">
+
+                  {/* Your Actual App Screen */}
+                  <Image
+                    src="/images/app-screenshot.jpg" // Replace with your actual file in /public folder
+                    alt="AutoLog App Dashboard"
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    priority
+                  />
+
+                  {/* Hardware "Glass" Reflection Overlay */}
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-40" />
+
+                  {/* Dynamic Inner Shadow (makes the screen look inset) */}
+                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]" />
+                </div>
+              </div>
+
+              {/* Decorative Floating UI (Service Logged) */}
+              <div className="absolute top-10 -right-4 glass-card p-4 flex gap-4 items-center animate-bounce duration-[3000ms] hidden md:flex z-30">
+                <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                  <CheckCircleIcon className="w-6 h-6 text-emerald-500" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold">Service Logged</p>
+                  <p className="text-[9px] text-slate-500">History updated</p>
                 </div>
               </div>
             </div>
