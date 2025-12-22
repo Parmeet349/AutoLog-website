@@ -1,226 +1,216 @@
 "use client";
+import { joinWaitlist } from "../utils/actions"; // Import the action
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState, useRef } from "react";
+import {
+  ArrowRightIcon,
+  CameraIcon,
+  BellIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+  ChartPieIcon,
+  CheckCircleIcon,
+  CircleStackIcon,
+  ChevronDownIcon,
+  EnvelopeIcon
+} from "@heroicons/react/24/outline";
 import { FaApple, FaAndroid } from "react-icons/fa";
+import { getPlatform } from "../utils/getPlatform";
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("hero");
-  const [showTopButton, setShowTopButton] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [countersStarted, setCountersStarted] = useState(false);
-  const [stats, setStats] = useState({ cars: 0, logs: 0, users: 0 });
+  const [platform, setPlatform] = useState("Unknown");
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
-  const sections = ["hero", "features", "stats", "pricing", "support"];
-  const revealRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Scroll & parallax handler
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
-      sections.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el && el.offsetTop <= scrollPos) setActiveSection(id);
-      });
-      setShowTopButton(window.scrollY > 500);
-      setScrollY(window.scrollY);
-
-      const statsEl = document.getElementById("stats");
-      if (statsEl && window.scrollY + window.innerHeight >= statsEl.offsetTop) {
-        setCountersStarted(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    setPlatform(getPlatform());
   }, []);
 
-  // Animated counters
-  useEffect(() => {
-    if (!countersStarted) return;
-    const interval = setInterval(() => {
-      setStats((prev) => ({
-        cars: prev.cars < 1200 ? prev.cars + 10 : 1200,
-        logs: prev.logs < 3500 ? prev.logs + 25 : 3500,
-        users: prev.users < 5000 ? prev.users + 40 : 5000,
-      }));
-    }, 50);
-    return () => clearInterval(interval);
-  }, [countersStarted]);
-
-  // IntersectionObserver for scroll reveal
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            entry.target.classList.remove("opacity-0", "translate-y-10");
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    revealRefs.current.forEach((el) => el && observer.observe(el));
-    return () => {
-      revealRefs.current.forEach((el) => el && observer.unobserve(el));
-    };
-  }, []);
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const handleWaitlist = async (formData: FormData) => {
+    setIsSubmitting(true);
+    const data = formData;
+    data.set("source", platform);
+    const result = await joinWaitlist(data);
+    if (result.success) {
+      setIsSubscribed(true);
+      setIsSubmitting(false);
+    }
   };
 
-  const addRef = (el: HTMLDivElement | null) => {
-    if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
-  };
+  const faqs = [
+    {
+      q: "Where is my vehicle data stored?",
+      a: "Your data is stored on your device and synced via an encrypted cloud connection. We use 256-bit encryption to ensure your service history is private."
+    },
+    {
+      q: "Does AutoLog work offline?",
+      a: "Yes. You can log services and expenses while offline. The app will automatically sync your data once you regain a connection."
+    },
+    {
+      q: "Is my privacy protected?",
+      a: "Privacy is our core pillar. We do not sell your driving habits or vehicle data to third-party marketers. Your garage is your business."
+    }
+  ];
 
   return (
-    <main className="bg-[#0B0F19] text-white min-h-screen relative overflow-x-hidden">
+    <div className="relative bg-[#030712] text-white overflow-hidden selection:bg-primary/30">
 
-      {/* Hero Section */}
-      <section
-        id="hero"
-        className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-8 py-32 gap-12 scroll-mt-32 overflow-hidden"
-        ref={addRef}
-      >
-        
-        <Image
-            src="/mockup-phone.png" // replace with your actual phone mockup
-            alt="App mockup"
-            width={350}
-            height={700}
-            className="rounded-lg"
-          />
-        <div className="max-w-lg">
-          <h2 className="text-4xl font-extrabold mb-4">
-            Track Your Car Expenses Effortlessly
-          </h2>
-          <p className="text-gray-400 mb-6">
-            AutoLog helps you monitor fuel costs, maintenance, and other vehicle
-            expenses with ease. Download now to start saving.
-          </p>
-          <div className="flex gap-4">
-            <button className="bg-[#ff6600] hover:bg-[#ff2200] px-6 py-3 rounded-md font-medium">
-              Download for iOS
-            </button>
-            <button className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-md font-medium">
-              Download for Android
-            </button>
-          </div>
-        </div>
-        <div>
+      {/* --- BACKGROUND TEXTURE --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-[0.03] [mask-image:radial-gradient(ellipse_at_center,black,transparent)]"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0 40L40 40M40 0L40 40' fill='none' stroke='white' stroke-width='1'/%3E%3C/svg%3E")` }}
+        />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 blur-[120px] rounded-full" />
+      </div>
 
-        </div>
-      </section>
+      <div className="relative z-10">
+        {/* --- HERO SECTION --- */}
+        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20">
+          <div className="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-widest uppercase">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                Now Live • Smart Vehicle Logging
+              </div>
 
-      {/* Features Section */}
-      <section id="features" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
-        <h3 className="text-3xl font-bold mb-8">Key Features</h3>
-        <div className="grid md:grid-cols-4 gap-8">
-          {[
-            { title: "OCR Fuel Log", desc: "Scan receipts with OCR technology.", img: "/ocr.png" },
-            { title: "Dashboard Charts", desc: "Visualize spending with charts.", img: "/charts.png" },
-            { title: "Reminders", desc: "Set maintenance & insurance reminders.", img: "/reminders.png" },
-            { title: "Multi-Vehicle Support", desc: "Manage multiple vehicles.", img: "/multi-vehicle.png" },
-          ].map((feature, idx) => (
-            <div
-              key={idx}
-              className="bg-[#111827] p-6 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
-              ref={addRef}
-            >
-              <Image src={feature.img} alt={feature.title} width={400} height={200} className="rounded-md mb-4"/>
-              <h4 className="text-lg font-semibold mb-2">{feature.title}</h4>
-              <p className="text-gray-400">{feature.desc}</p>
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85]">
+                Your entire garage, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+                  perfectly logged.
+                </span>
+              </h1>
+
+              <p className="text-xl text-slate-400 max-w-md leading-relaxed">
+                AutoLog helps you organize fuel, maintenance, and expenses manually or with smart photo capture —
+                so you always know what your vehicle really costs.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-5">
+                <button
+                  onClick={() => window.open(platform === "iOS" ? "https://apps.apple.com/us/app/autolog/id6446252256" : "https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")}
+                  className="btn-premium flex items-center justify-center gap-2 group text-white">
+                  Get Started for Free
+                  <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <div className="flex items-center gap-6 px-6 py-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md grayscale opacity-60">
+                  <FaApple onClick={() => window.open("https://apps.apple.com/us/app/autolog/id6446252256", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+                  <FaAndroid onClick={() => window.open("https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Stats Section */}
-      <section id="stats" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32 flex flex-col items-center text-center">
-        <div className="flex justify-around w-full mb-12">
-          <div>
-            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.cars}+</h4>
-            <p className="text-gray-400">Cars Tracked</p>
-          </div>
-          <div>
-            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.logs}+</h4>
-            <p className="text-gray-400">Fuel Logs</p>
-          </div>
-          <div>
-            <h4 className="text-4xl font-bold text-[#ff6600]">{stats.users}+</h4>
-            <p className="text-gray-400">Active Users</p>
-          </div>
-        </div>
-
-        {/* Download Buttons Below Stats */}
-        <div className="flex gap-6">
-          <button className="bg-[#ff6600] hover:bg-[#ff2200] px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
-            <FaApple /> iOS Download
-          </button>
-          <button className="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-md font-medium flex items-center gap-2 transition transform hover:scale-105">
-            <FaAndroid /> Android Download
-          </button>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
-        <h3 className="text-3xl font-bold mb-12 text-center">Pricing Plans</h3>
-        <div className="grid md:grid-cols-2 gap-8">
-          {[
-            { title: "Free", price: "$0/month", features: ["Basic fuel tracking", "Trip logs"] },
-            { title: "Premium", price: "$9.99/month", features: ["Unlimited tracking", "Maintenance reminders", "Advanced analytics"] },
-          ].map((plan, idx) => (
-            <div
-              key={idx}
-              className="bg-[#111827] p-8 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
-              ref={addRef}
-            >
-              <h4 className="text-2xl font-semibold mb-4">{plan.title}</h4>
-              <p className="text-3xl font-bold mb-6">{plan.price}</p>
-              <ul className="mb-6 space-y-2 text-gray-400">
-                {plan.features.map((f, i) => <li key={i}>• {f}</li>)}
-              </ul>
-              <button className="bg-[#ff6600] px-6 py-3 rounded-md hover:bg-[#ff2200] font-medium transition transform hover:scale-105">Choose Plan</button>
+            {/* Floating Phone Mockup */}
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[3rem] blur opacity-25"></div>
+              <div className="relative glass-card p-4 aspect-[9/19] max-w-[320px] mx-auto border-white/20 overflow-hidden shadow-2xl z-20">
+                <div className="w-full h-full bg-[#0B0F19] rounded-[2rem] overflow-hidden p-6 border border-white/10">
+                  <div className="w-12 h-1 bg-white/10 rounded-full mx-auto mb-8" />
+                  <div className="space-y-4">
+                    <div className="h-24 w-full bg-primary/20 rounded-2xl animate-pulse" />
+                    <div className="h-32 w-full bg-white/5 rounded-2xl" />
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Support Section */}
-      <section id="support" className="max-w-7xl mx-auto px-8 py-16 scroll-mt-32">
-        <h3 className="text-3xl font-bold mb-12 text-center">Support & FAQs</h3>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { q: "How do I log fuel expenses?", a: "Scan receipts or enter manually using AutoLog." },
-            { q: "Can I track multiple vehicles?", a: "Yes, you can manage multiple vehicles." },
-            { q: "How do I upgrade to Premium?", a: "Visit the Pricing section and select Premium." },
-          ].map((faq, idx) => (
-            <div
-              key={idx}
-              className="bg-[#111827] p-6 rounded-lg hover:shadow-xl hover:scale-105 transition transform opacity-0 translate-y-10"
-              ref={addRef}
-            >
-              <h4 className="text-lg font-semibold mb-2">{faq.q}</h4>
-              <p className="text-gray-400">{faq.a}</p>
+        {/* --- BENTO FEATURES --- */}
+        <section id="features" className="max-w-7xl mx-auto px-8 py-32">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Built for Everyday Car Ownership</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">AutoLog brings everything about your vehicle into one clear, organized view.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px]">
+            <div className="glass-card md:col-span-2 md:row-span-2 p-10 flex flex-col justify-end relative overflow-hidden group">
+              <CameraIcon className="absolute top-10 right-10 w-32 h-32 text-white/5 group-hover:text-primary/10 transition-colors" />
+              <div className="relative z-10">
+                <SparklesIcon className="w-8 h-8 text-primary mb-4" />
+                <h3 className="text-3xl font-bold mb-4">Visual Records</h3>
+                <p className="text-slate-400 max-w-sm text-lg leading-relaxed">Save time by capturing maintenance receipts with a photo. Your history stays complete and accurate.</p>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="glass-card p-8 flex flex-col justify-center text-center">
+              <ChartPieIcon className="w-12 h-12 mx-auto mb-4 text-accent" />
+              <h3 className="text-xl font-bold">Ownership Insights</h3>
+            </div>
+            <div className="glass-card p-8 flex flex-col justify-center text-center">
+              <BellIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
+              <h3 className="text-xl font-bold">Timely Reminders</h3>
+            </div>
+            <div className="glass-card md:col-span-1 p-8 flex flex-col justify-end">
+              <ShieldCheckIcon className="w-8 h-8 mb-4 text-emerald-400" />
+              <h3 className="text-xl font-bold mb-2">Privacy-First</h3>
+            </div>
+          </div>
+        </section>
 
-      {/* Back to Top Button */}
-      {showTopButton && (
-        <button
-          onClick={() => scrollTo("hero")}
-          className="fixed bottom-8 right-8 bg-[#ff6600] text-white p-4 rounded-full shadow-lg hover:bg-[#ff2200] transition transform hover:scale-110 z-50"
-        >
-          ↑
-        </button>
-      )}
-    </main>
+        {/* --- WAITLIST SECTION --- */}
+        <section id="support" className="max-w-7xl mx-auto px-8 py-20">
+          <div className="glass-card p-12 bg-gradient-to-br from-primary/10 to-transparent border-primary/20 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="max-w-md">
+              <h3 className="text-3xl font-bold mb-4">Join the Inner Circle</h3>
+              <p className="text-slate-400">Be the first to know about our upcoming Fuel Intelligence update and maintenance pro-tips.</p>
+            </div>
+
+            <div className="w-full max-w-sm">
+              {isSubscribed ? (
+                <div className="flex items-center gap-3 text-emerald-400 font-bold animate-in fade-in slide-in-from-bottom-2">
+                  <CheckCircleIcon className="w-8 h-8" />
+                  You&apos;re on the list!
+                </div>
+              ) : (
+                <form action={handleWaitlist} className="flex gap-2">
+                  <div className="relative flex-1">
+                    <EnvelopeIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                    <input
+                      required
+                      name="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 focus:outline-none focus:border-primary transition-colors"
+                    />
+                  </div>
+                  <button
+                    disabled={isSubmitting}
+                    className="bg-primary hover:bg-primary-light px-6 py-4 rounded-xl font-bold transition-all disabled:opacity-50"
+                  >
+                    {isSubmitting ? "Joining..." : "Join"}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* --- FAQ SECTION --- */}
+        <section className="max-w-4xl mx-auto px-8 py-32">
+          <h2 className="text-4xl font-bold text-center mb-16">Common Questions</h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <div key={i} className="glass-card overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full p-6 flex items-center justify-between text-left hover:bg-white/5"
+                >
+                  <span className="font-bold text-lg">{faq.q}</span>
+                  <ChevronDownIcon className={`w-5 h-5 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="p-6 pt-0 text-slate-400 animate-in fade-in duration-300">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

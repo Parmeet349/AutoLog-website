@@ -4,6 +4,9 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "AutoLog",
+  icons: {
+    icon: "/favicon.ico",
+  },
   description: "Track and manage your vehicle expenses effortlessly",
 };
 

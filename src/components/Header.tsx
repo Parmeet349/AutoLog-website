@@ -1,115 +1,65 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { HiMenu, HiX } from "react-icons/hi";
+import { HiMenuAlt3, HiX } from "react-icons/hi";
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Features", href: "#features" },
     { name: "Stats", href: "#stats" },
     { name: "Pricing", href: "#pricing" },
-    { name: "Support", href: "#support" },
   ];
 
-  const handleLinkClick = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    }
-  };
-
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#0B0F19]/90 backdrop-blur-md shadow-md">
-      <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="AutoLog Logo"
-            width={40}
-            height={40}
-            className="object-contain"
-            priority
-          />
-          <span className="text-xl font-bold cursor-pointer text-white">
+    <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${isScrolled ? "py-4 bg-background/80 backdrop-blur-xl border-b border-white/5" : "py-8 bg-transparent"
+      }`}>
+      <div className="max-w-7xl mx-auto px-8 flex justify-between items-center">
+
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image src="/images/logo.png" priority alt="AutoLog" width={40} height={40} className="w-10 h-10 group-hover:scale-110 transition-transform duration-300" />
+          <span className="text-xl font-black tracking-tighter uppercase hidden sm:block">
             AutoLog
           </span>
         </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden md:flex gap-8 text-gray-300">
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => handleLinkClick(link.href)}
-              className="hover:text-[#FF6600] transition"
-            >
+            <Link key={link.name} href={link.href} className="text-sm font-bold text-slate-400 hover:text-white transition-colors">
               {link.name}
-            </button>
+            </Link>
           ))}
-          <button className="bg-gray-800 px-4 py-2 rounded-md hover:bg-gray-700">
-            Login
-          </button>
-        </nav>
-
-        {/* Mobile Hamburger */}
-        <div className="md:hidden">
-          <button onClick={toggleMobileMenu}>
-            {isMobileMenuOpen ? (
-              <HiX className="w-6 h-6 text-white" />
-            ) : (
-              <HiMenu className="w-6 h-6 text-white" />
-            )}
+          <button className="px-6 py-2 bg-white text-black rounded-full font-bold text-sm hover:bg-slate-200 transition-colors">
+            Get App
           </button>
         </div>
+
+        {/* Mobile Toggle */}
+        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
+        </button>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`fixed top-0 left-0 w-64 min-h-screen bg-[#0B0F19] shadow-lg transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between border-b p-4">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo.png"
-              alt="AutoLog Logo"
-              width={40}
-              height={40}
-              className="object-contain"
-              priority
-            />
-            <span className="text-xl font-bold text-white">AutoLog</span>
-          </Link>
-          <button onClick={toggleMobileMenu}>
-            <HiX className="w-6 h-6 text-white" />
-          </button>
-        </div>
-
-        <ul className="flex flex-col gap-4 p-4">
+      {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-background border-b border-white/5 p-8 flex flex-col gap-6 md:hidden">
           {navLinks.map((link) => (
-            <li key={link.name}>
-              <button
-                onClick={() => handleLinkClick(link.href)}
-                className="text-gray-300 text-lg hover:text-[#ff6600] w-full text-left"
-              >
-                {link.name}
-              </button>
-            </li>
+            <Link key={link.name} href={link.href} className="text-2xl font-bold" onClick={() => setIsOpen(false)}>
+              {link.name}
+            </Link>
           ))}
-          <li className="mt-4">
-            <button className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 w-full">
-              Login
-            </button>
-          </li>
-        </ul>
-      </div>
-    </header>
+        </div>
+      )}
+    </nav>
   );
 }
