@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { db } from "@/utils/firebaseAdmin";
 
 export default async function WaitlistAdmin() {
