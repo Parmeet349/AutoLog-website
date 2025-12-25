@@ -16,6 +16,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { FaApple, FaAndroid } from "react-icons/fa";
 import { getPlatform } from "../utils/getPlatform";
+import PricingPage from "./pricing/page";
 
 export default function Home() {
   const [platform, setPlatform] = useState("Unknown");
@@ -224,6 +225,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* --- Pricing SECTION --- */}
+        <PricingPage />
 
         {/* --- FAQ SECTION --- */}
         <section className="max-w-4xl mx-auto px-8 py-32">
