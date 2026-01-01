@@ -11,7 +11,7 @@ export default function DeleteAccountPage() {
 
         <h2 className="text-2xl font-semibold mb-4">How to Request Account Deletion</h2>
         <ul className="list-disc list-inside text-gray-400 mb-6 space-y-2">
-          <li>Send an email to <strong>support@autolog.app</strong></li>
+          <li>Send an email to <strong>info@askstudios.net</strong></li>
           <li>Use the subject line: <strong>Account Deletion Request</strong></li>
           <li>Include the email address associated with your AutoLog account</li>
         </ul>
@@ -32,7 +32,7 @@ export default function DeleteAccountPage() {
         <h2 className="text-2xl font-semibold mb-4">Contact</h2>
         <p className="text-gray-300">
           For questions related to account deletion, contact us at
-          <strong className="text-white"> support@autolog.app</strong>.
+          <strong className="text-white"> info@askstudios.net</strong>.
         </p>
       </section>
     </main>
