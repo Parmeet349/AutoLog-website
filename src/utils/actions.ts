@@ -31,7 +31,6 @@ export async function joinWaitlist(formData: FormData) {
                 to: email,
                 subject: "Welcome to AutoLog 🚗",
                 html: `
-         `
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333; line-height: 1.6;">
     <div style="text-align: center; margin-bottom: 30px;">
         <h1 style="color: #1a1a1a; margin-bottom: 10px;">You’re on the list! 🚗</h1>
@@ -65,8 +64,6 @@ export async function joinWaitlist(formData: FormData) {
         If you didn't mean to join, you can safely ignore this email.
     </p>
 </div>
-`
-
         `,
             });
         }
