@@ -4,13 +4,13 @@ export default function PricingPage() {
       title: "Essential",
       price: "$0",
       tagline: "Perfect for the casual driver",
-      features: ["Single Vehicle Profile", "Manual Fuel Logging", "Standard Reminders", "30-Day History"]
+      features: ["Single Vehicle Profile", "VIN Decoder", "Manual Fuel Logging", "Standard Reminders", "30-Day History"]
     },
     {
       title: "Pro Collector",
       price: "$9.99",
       tagline: "For those who take care of their fleet",
-      features: ["Unlimited Vehicles", "AI Receipt OCR", "Predictive Maintenance Alerts", "Advanced Export (CSV/PDF)", "Lifetime Cloud Sync"]
+      features: ["Unlimited Vehicles", "AI Receipt OCR", "Predictive Maintenance Alerts", "Advanced Export (PDF)", "Lifetime Cloud Sync"]
     },
   ];
 

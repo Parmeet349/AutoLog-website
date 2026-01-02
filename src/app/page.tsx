@@ -10,7 +10,6 @@ import {
   SparklesIcon,
   ChartPieIcon,
   CheckCircleIcon,
-  CircleStackIcon,
   ChevronDownIcon,
   EnvelopeIcon
 } from "@heroicons/react/24/outline";
@@ -93,15 +92,18 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-5">
                 <button
-                  onClick={() => window.open(platform === "iOS" ? "https://apps.apple.com/us/app/autolog/id6446252256" : "https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")}
+                  // onClick={() => window.open(platform === "iOS" ? "https://apps.apple.com/us/app/autolog/id6446252256" : "https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")}
+                  // go to support section
+                  onClick={() => window.scrollTo({ top: document.getElementById("support")?.offsetTop || 0, behavior: "smooth" })}
                   className="btn-premium flex items-center justify-center gap-2 group text-white">
-                  Get Started for Free
+                  {/* Get Started for Free */}
+                  Join the Inner Circle
                   <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <div className="flex items-center gap-6 px-6 py-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md grayscale opacity-60">
+                {/* <div className="flex items-center gap-6 px-6 py-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md grayscale opacity-60">
                   <FaApple onClick={() => window.open("https://apps.apple.com/us/app/autolog/id6446252256", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
                   <FaAndroid onClick={() => window.open("https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
-                </div>
+                </div> */}
               </div>
             </div>
 
