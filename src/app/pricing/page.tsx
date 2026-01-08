@@ -2,20 +2,39 @@ export default function PricingPage() {
   const plans = [
     {
       title: "Essential",
-      price: "$0",
+      price: "$0 CAD",
+      billing: "Free",
       tagline: "Perfect for the casual driver",
-      features: ["Single Vehicle Profile", "VIN Decoder", "Manual Fuel Logging", "Standard Reminders", "30-Day History"]
+      features: [
+        "Single Vehicle Profile",
+        "VIN Decoder",
+        "Manual Fuel Logging",
+        "Standard Reminders (Up to 5)",
+        "Basic Fuel & Service Charts"
+      ]
     },
     {
       title: "Pro Collector",
-      price: "$9.99",
-      tagline: "For those who take care of their fleet",
-      features: ["Unlimited Vehicles", "AI Receipt OCR", "Predictive Maintenance Alerts", "Advanced Export (PDF)", "Lifetime Cloud Sync"]
-    },
+      price: "$5.99 CAD",
+      billing: "Monthly or Annual",
+      recommended: true,
+      tagline: "For drivers who take vehicle care seriously",
+      features: [
+        "Unlimited Vehicles",
+        "AI Receipt OCR Scanning",
+        "Advanced Fuel & Cost Analytics",
+        "Smart Maintenance Alerts",
+        "PDF Exports (Tax & Resale)",
+        "Unlimited Cloud Sync & Backup",
+        "Priority Support",
+        "Early Access to New Features"
+      ]
+    }
   ];
 
+
   return (
-    <section className="max-w-7xl mx-auto px-8 py-32">
+    <section id="pricing" className="max-w-7xl mx-auto px-8 py-32">
       <div className="text-center mb-16">
         <h1 className="text-5xl font-black mb-4">Choose Your Path</h1>
         <p className="text-slate-400 text-lg">Start free, upgrade whenever you need more power.</p>

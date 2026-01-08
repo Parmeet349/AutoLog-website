@@ -40,18 +40,39 @@ export default function Home() {
 
   const faqs = [
     {
-      q: "Where is my vehicle data stored?",
-      a: "Your data is stored on your device and synced via an encrypted cloud connection. We use 256-bit encryption to ensure your service history is private."
+      q: "What is AutoLog used for?",
+      a: "AutoLog helps you track everything related to your vehicle — fuel fill-ups, maintenance, services, and expenses — all in one place so you clearly understand what your car really costs."
     },
     {
-      q: "Does AutoLog work offline?",
-      a: "Yes. You can log services and expenses while offline. The app will automatically sync your data once you regain a connection."
+      q: "Is AutoLog free to use?",
+      a: "Yes. AutoLog offers a free version with essential logging features. You can upgrade to AutoLog Pro for advanced insights, reminders, and premium tools."
     },
     {
-      q: "Is my privacy protected?",
-      a: "Privacy is our core pillar. We do not sell your driving habits or vehicle data to third-party marketers. Your garage is your business."
+      q: "Can I track multiple vehicles?",
+      a: "Yes. AutoLog supports multiple vehicles, making it ideal for households, car enthusiasts, or anyone managing more than one vehicle."
+    },
+    {
+      q: "How accurate are the insights and reports?",
+      a: "All insights are generated directly from the data you log. The more consistently you log fuel and services, the more accurate and useful your cost and usage insights become."
+    },
+    {
+      q: "Is my vehicle data secure?",
+      a: "Yes. Your data is encrypted and securely stored. AutoLog is built with a privacy-first approach and never sells your vehicle data to third parties."
+    },
+    {
+      q: "Can I export my data?",
+      a: "Yes. AutoLog allows you to export your vehicle logs and history, making it easy to keep records for personal use or resale purposes."
+    },
+    {
+      q: "Does AutoLog send service reminders?",
+      a: "Yes. AutoLog can remind you about upcoming maintenance based on time or mileage, so you never miss important service intervals."
+    },
+    {
+      q: "Is AutoLog available on both iOS and Android?",
+      a: "Yes. AutoLog is available on both iOS and Android, so you can manage your vehicles on whichever device you prefer."
     }
   ];
+
 
   return (
     <div className="relative bg-[#030712] text-white overflow-hidden selection:bg-primary/30">
@@ -92,18 +113,18 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-5">
                 <button
-                  // onClick={() => window.open(platform === "iOS" ? "https://apps.apple.com/us/app/autolog/id6446252256" : "https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")}
+                  onClick={() => window.open(platform === "iOS" || platform === "Mac" ? "https://apps.apple.com/us/app/autolog-vehicle-manager/id6757113052" : "https://play.google.com/store/apps/details?id=com.parmeet.AutoLog", "_blank")}
                   // go to support section
-                  onClick={() => window.scrollTo({ top: document.getElementById("support")?.offsetTop || 0, behavior: "smooth" })}
+                  // onClick={() => window.scrollTo({ top: document.getElementById("support")?.offsetTop || 0, behavior: "smooth" })}
                   className="btn-premium flex items-center justify-center gap-2 group text-white">
-                  {/* Get Started for Free */}
-                  Join the Inner Circle
+                  Get Started for Free
+                  {/* Join the Inner Circle */}
                   <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                {/* <div className="flex items-center gap-6 px-6 py-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md grayscale opacity-60">
-                  <FaApple onClick={() => window.open("https://apps.apple.com/us/app/autolog/id6446252256", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
-                  <FaAndroid onClick={() => window.open("https://play.google.com/store/apps/details?id=com.askstudios.autolog", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
-                </div> */}
+                <div className="flex items-center gap-6 px-6 py-2 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md grayscale opacity-60">
+                  <FaApple onClick={() => window.open("https://apps.apple.com/us/app/autolog-vehicle-manager/id6757113052", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+                  <FaAndroid onClick={() => window.open("https://play.google.com/store/apps/details?id=com.parmeet.AutoLog", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+                </div>
               </div>
             </div>
 
@@ -160,38 +181,137 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- BENTO FEATURES --- */}
-        <section id="features" className="max-w-7xl mx-auto px-8 py-32">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Built for Everyday Car Ownership</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">AutoLog brings everything about your vehicle into one clear, organized view.</p>
+        <section className="max-w-7xl mx-auto px-8 pb-20">
+          <div className="flex flex-wrap justify-center gap-8 text-slate-500 text-sm">
+            <span>10,000+ logs created</span>
+            <span>•</span>
+            <span>Trusted by drivers in Canada & USA</span>
+            <span>•</span>
+            <span>4.8★ App Store rating</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px]">
-            <div className="glass-card md:col-span-2 md:row-span-2 p-10 flex flex-col justify-end relative overflow-hidden group">
-              <CameraIcon className="absolute top-10 right-10 w-32 h-32 text-white/5 group-hover:text-primary/10 transition-colors" />
-              <div className="relative z-10">
-                <SparklesIcon className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-3xl font-bold mb-4">Visual Records</h3>
-                <p className="text-slate-400 max-w-sm text-lg leading-relaxed">Save time by capturing maintenance receipts with a photo. Your history stays complete and accurate.</p>
-              </div>
+        </section>
+
+        <section className="max-w-6xl mx-auto px-8 py-24">
+          <div className="grid md:grid-cols-3 gap-12 text-center">
+            <div>
+              <CameraIcon className="w-10 h-10 mx-auto mb-4 text-primary" />
+              <h4 className="font-bold mb-2">Add Your Vehicle</h4>
+              <p className="text-slate-400 text-sm">Enter basics once. AutoLog handles the rest.</p>
             </div>
-            <div className="glass-card p-8 flex flex-col justify-center text-center">
-              <ChartPieIcon className="w-12 h-12 mx-auto mb-4 text-accent" />
-              <h3 className="text-xl font-bold">Ownership Insights</h3>
+            <div>
+              <SparklesIcon className="w-10 h-10 mx-auto mb-4 text-accent" />
+              <h4 className="font-bold mb-2">Log in Seconds</h4>
+              <p className="text-slate-400 text-sm">Fuel, service, expenses — even via photos.</p>
             </div>
-            <div className="glass-card p-8 flex flex-col justify-center text-center">
-              <BellIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="text-xl font-bold">Timely Reminders</h3>
-            </div>
-            <div className="glass-card md:col-span-1 p-8 flex flex-col justify-end">
-              <ShieldCheckIcon className="w-8 h-8 mb-4 text-emerald-400" />
-              <h3 className="text-xl font-bold mb-2">Privacy-First</h3>
+            <div>
+              <ChartPieIcon className="w-10 h-10 mx-auto mb-4 text-emerald-400" />
+              <h4 className="font-bold mb-2">Understand Costs</h4>
+              <p className="text-slate-400 text-sm">Know exactly what your vehicle costs you.</p>
             </div>
           </div>
         </section>
 
+
+        {/* --- FEATURES --- */}
+        <section id="features" className="max-w-7xl mx-auto px-8 py-32">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Everything your car needs. <br className="hidden md:block" />
+              Nothing you don’t.
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+              AutoLog is designed for real car owners — simple logging, clear insights,
+              and total control over your data.
+            </p>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px]">
+
+            {/* Primary Feature */}
+            <div className="glass-card md:col-span-2 md:row-span-2 p-10 flex flex-col justify-between relative overflow-hidden group">
+              <CameraIcon className="absolute -top-6 -right-6 w-40 h-40 text-white/5 group-hover:text-primary/10 transition-colors" />
+
+              <div className="relative z-10">
+                <span className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-primary mb-4">
+                  <SparklesIcon className="w-4 h-4" />
+                  Effortless Logging
+                </span>
+
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                  Log fuel & maintenance <br /> in seconds
+                </h3>
+
+                <p className="text-slate-400 max-w-md text-lg leading-relaxed">
+                  Capture receipts, services, and expenses visually or manually.
+                  No spreadsheets. No forgotten records.
+                </p>
+              </div>
+
+              <p className="text-xs text-slate-500 mt-8">
+                Built for daily use — even when you’re in a rush.
+              </p>
+            </div>
+
+            {/* Insights */}
+            <div className="glass-card p-8 flex flex-col justify-center text-center">
+              <ChartPieIcon className="w-12 h-12 mx-auto mb-4 text-accent" />
+              <h3 className="text-xl font-bold mb-2">Real Ownership Costs</h3>
+              <p className="text-slate-400 text-sm">
+                Understand fuel spend, maintenance trends, and total cost over time.
+              </p>
+            </div>
+
+            {/* Reminders */}
+            <div className="glass-card p-8 flex flex-col justify-center text-center">
+              <BellIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
+              <h3 className="text-xl font-bold mb-2">Never Miss Service</h3>
+              <p className="text-slate-400 text-sm">
+                Get timely reminders for oil changes, inspections, and more.
+              </p>
+            </div>
+
+            {/* Privacy */}
+            <div className="glass-card p-8 flex flex-col justify-between">
+              <ShieldCheckIcon className="w-8 h-8 text-emerald-400 mb-4" />
+              <div>
+                <h3 className="text-xl font-bold mb-2">Privacy by Default</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Your vehicle data stays yours. Encrypted, secure, and never sold.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <section className="max-w-6xl mx-auto px-8 py-16">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div className="glass-card p-6">
+              <ShieldCheckIcon className="w-8 h-8 mx-auto mb-3 text-emerald-400" />
+              <p className="font-semibold">Privacy-First</p>
+              <p className="text-xs text-slate-400 mt-1">Your data is never sold.</p>
+            </div>
+            <div className="glass-card p-6">
+              <BellIcon className="w-8 h-8 mx-auto mb-3 text-primary" />
+              <p className="font-semibold">Smart Reminders</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Stay on top of maintenance with timely service alerts.
+              </p>
+            </div>
+            <div className="glass-card p-6">
+              <CheckCircleIcon className="w-8 h-8 mx-auto mb-3 text-accent" />
+              <p className="font-semibold">No Learning Curve</p>
+              <p className="text-xs text-slate-400 mt-1">Built for everyday drivers.</p>
+            </div>
+          </div>
+        </section>
+
+
         {/* --- WAITLIST SECTION --- */}
-        <section id="support" className="max-w-7xl mx-auto px-8 py-20">
+        {/* <section id="support" className="max-w-7xl mx-auto px-8 py-20">
           <div className="glass-card p-12 bg-gradient-to-br from-primary/10 to-transparent border-primary/20 flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="max-w-md">
               <h3 className="text-3xl font-bold mb-4">Join the Inner Circle</h3>
@@ -226,13 +346,61 @@ export default function Home() {
               )}
             </div>
           </div>
-        </section>
+        </section> */}
+
 
         {/* --- Pricing SECTION --- */}
         <PricingPage />
 
+        {/* --- FINAL CTA --- */}
+        <section className="relative max-w-7xl mx-auto px-8 pb-40 pt-24">
+          {/* Subtle Background Glow */}
+          <div className="absolute inset-0 -z-10 flex items-center justify-center">
+            <div className="w-[60%] h-[60%] bg-primary/20 blur-[140px] rounded-full" />
+          </div>
+
+          <div className="glass-card p-14 md:p-20 text-center border border-white/10">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
+              Stop guessing what <br className="hidden md:block" />
+              your car costs you.
+            </h2>
+
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg mb-10 leading-relaxed">
+              Track fuel, maintenance, and ownership costs in one place.
+              AutoLog gives you clarity — without the hassle.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <button
+                onClick={() =>
+                  window.open(
+                    platform === "iOS" || platform === "Mac"
+                      ? "https://apps.apple.com/us/app/autolog-vehicle-manager/id6757113052"
+                      : "https://play.google.com/store/apps/details?id=com.parmeet.AutoLog",
+                    "_blank"
+                  )
+                }
+                className="btn-premium flex items-center gap-2 text-white group"
+              >
+                Start Logging for Free
+                <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              {/* Platform Icons */}
+              <div className="flex items-center gap-5 px-6 py-3 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md opacity-70">
+                <FaApple onClick={() => window.open("https://apps.apple.com/us/app/autolog-vehicle-manager/id6757113052", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+                <FaAndroid onClick={() => window.open("https://play.google.com/store/apps/details?id=com.parmeet.AutoLog", "_blank")} className="w-6 h-6 hover:text-white cursor-pointer transition-colors" />
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 mt-6">
+              Free to start • No credit card required
+            </p>
+          </div>
+        </section>
+
+
         {/* --- FAQ SECTION --- */}
-        <section className="max-w-4xl mx-auto px-8 py-32">
+        <section id="faq" className="max-w-4xl mx-auto px-8 py-32">
           <h2 className="text-4xl font-bold text-center mb-16">Common Questions</h2>
           <div className="space-y-4">
             {faqs.map((faq, i) => (
