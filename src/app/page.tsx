@@ -1,5 +1,4 @@
 "use client";
-import { joinWaitlist } from "../utils/actions"; // Import the action
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
@@ -10,8 +9,7 @@ import {
   SparklesIcon,
   ChartPieIcon,
   CheckCircleIcon,
-  ChevronDownIcon,
-  EnvelopeIcon
+  ChevronDownIcon
 } from "@heroicons/react/24/outline";
 import { FaApple, FaAndroid } from "react-icons/fa";
 import { getPlatform } from "../utils/getPlatform";
@@ -20,23 +18,10 @@ import PricingPage from "./pricing/page";
 export default function Home() {
   const [platform, setPlatform] = useState("Unknown");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     setPlatform(getPlatform());
   }, []);
-
-  const handleWaitlist = async (formData: FormData) => {
-    setIsSubmitting(true);
-    const data = formData;
-    data.set("source", platform);
-    const result = await joinWaitlist(data);
-    if (result.success) {
-      setIsSubscribed(true);
-      setIsSubmitting(false);
-    }
-  };
 
   const faqs = [
     {
