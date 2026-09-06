@@ -6,6 +6,14 @@ export default function Footer() {
       <div className="flex gap-6 mb-4 md:mb-0">
         <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
         <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+        <a
+          href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-white"
+        >
+          Terms of Use (EULA)
+        </a>
       </div>
       <p>© 2025 AutoLog. All rights reserved.</p>
     </footer>

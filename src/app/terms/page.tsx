@@ -136,10 +136,28 @@ export default function TermsOfServicePage() {
                     </p>
                 </section>
 
+                {/* Apple Standard EULA */}
+                <section className="mb-12">
+                    <h2 className="text-2xl font-semibold mb-4">
+                        10. Apple Standard EULA
+                    </h2>
+                    <p className="text-gray-300 leading-relaxed">
+                        For iOS users downloading or accessing AutoLog via the Apple App Store, your use of the application is also governed by Apple&apos;s Standard Licensed Application End User License Agreement (EULA). You may view Apple&apos;s Standard EULA at{" "}
+                        <a
+                            href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#FF6600] underline hover:text-[#ff8533]"
+                        >
+                            https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+                        </a>.
+                    </p>
+                </section>
+
                 {/* Contact */}
                 <section>
                     <h2 className="text-2xl font-semibold mb-4">
-                        10. Contact Us
+                        11. Contact Us
                     </h2>
                     <p className="text-gray-300 leading-relaxed">
                         If you have any questions about these Terms of Service, please
